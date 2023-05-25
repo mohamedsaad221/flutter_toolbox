@@ -38,7 +38,7 @@ class ConnectionStatusBar extends StatefulWidget {
       ),
     );
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      Overlay.of(context)!.insert(overlayEntry);
+      Overlay.of(context).insert(overlayEntry);
     });
   }
 }
