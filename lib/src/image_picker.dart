@@ -49,7 +49,8 @@ Future<File?> picImage(BuildContext context) async {
   if (pickedFile == null) return null;
 
   File image = File((pickedFile).path);
-  return fixExifRotation(image);
+ // return fixExifRotation(image);
+  return image;
 }
 
 Future<MultipartFile?> picImageMultiFile(
