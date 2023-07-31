@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'helpers/grid_helpers.dart';
 
 typedef Widget ItemBuilder<T>(BuildContext context, T entry, int index);
-typedef Future<List<T>> PageFuture<T>(int pageIndex);
+typedef Future<List<T>> PageFuture<T>(int? pageIndex);
 typedef Widget ErrorBuilder(BuildContext context, Object? error);
 typedef Widget LoadingBuilder(BuildContext context);
 typedef Widget NoItemsFoundBuilder(BuildContext context);
@@ -163,7 +163,8 @@ abstract class Pagewise<T> extends StatefulWidget {
       required this.itemBuilder,
       this.errorBuilder,
       required this.builder})
-      : assert((pageLoadController == null &&
+      : assert(showRetry != null),
+        assert((pageLoadController == null &&
                 pageSize != null &&
                 pageFuture != null) ||
             (pageLoadController != null &&
@@ -310,13 +311,13 @@ class PagewiseState<T> extends State<Pagewise<T>> {
 
   Widget _getRetryWidget() {
     var defaultRetryButton = TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: Colors.grey[300],
+        shape: CircleBorder(),
+      ),
       child: Icon(
         Icons.refresh,
         color: Colors.white,
-      ),
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.grey[300],
-        shape: CircleBorder(),
       ),
       onPressed: this._effectiveController!.retry,
     );
@@ -406,7 +407,7 @@ class PagewiseState<T> extends State<Pagewise<T>> {
 class PagewiseLoadController<T> extends ChangeNotifier {
   List<T>? _loadedItems;
   late List _appendedItems;
-  int _numberOfLoadedPages = 0;
+  int _numberOfLoadedPages=0;
   bool? _hasMoreItems;
   Object? _error;
   late bool _isFetching;
@@ -503,6 +504,11 @@ class PagewiseLoadController<T> extends ChangeNotifier {
   /// Attempts to retry in case an error occurred
   void retry() {
     this._error = null;
+    this.notifyListeners();
+  }
+
+  void removeItem(bool Function(T item) test) {
+    this._loadedItems?.removeWhere(test);
     this.notifyListeners();
   }
 }
