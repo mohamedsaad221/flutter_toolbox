@@ -43,7 +43,7 @@ Future<dynamic> safeRequest<T>(
     return await onError?.call(e);
   } catch (e) {
     d2('UnknownError-> $e');
-    errorToast(S.current.server_error);
+//    errorToast(S.current.server_error);
     return await onUnknownError?.call(e);
   }
 }
