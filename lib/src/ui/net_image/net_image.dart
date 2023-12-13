@@ -233,7 +233,7 @@ class _NetImageState extends State<NetImage> {
                       ? widget.onTap
                       : widget.fullScreen
                           ? () => _openFullScreen(context)
-                          : null,
+                          : () => null,
                 ),
               ),
             ),
