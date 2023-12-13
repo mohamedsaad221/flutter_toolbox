@@ -244,16 +244,12 @@ class _NetImageState extends State<NetImage> {
   }
 
   Widget _cachedNetworkImage(String? imageUrl) {
-    final _errorWidget =
-        widget.errorWidget ?? (_, __, ___) => Icon(Icons.image);
-
-    if (imageUrl?.isNotEmpty != true) return _errorWidget(context, '', '');
 
     return CachedNetworkImage(
       imageUrl: imageUrl ?? '',
       placeholder: widget.placeholder ??
           (_, __) => Center(child: CircularProgressIndicator()),
-      errorWidget: _errorWidget,
+      errorWidget: (context,name,error) => Icon(Icons.error),
       imageBuilder: widget.imageBuilder,
       fadeOutDuration: widget.fadeOutDuration,
       fadeOutCurve: widget.fadeOutCurve,
