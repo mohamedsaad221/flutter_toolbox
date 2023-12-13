@@ -247,7 +247,7 @@ class _NetImageState extends State<NetImage> {
     final _errorWidget =
         widget.errorWidget ?? (_, __, ___) => Icon(Icons.image);
 
-    if (imageUrl?.isNotEmpty != true) return _errorWidget(context, '', null);
+    if (imageUrl?.isNotEmpty != true) return _errorWidget(context, '', '');
 
     return CachedNetworkImage(
       imageUrl: imageUrl ?? '',
